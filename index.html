@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Glow Group - Peptide Co-Op</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url("background.png") no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    /* Dark overlay for readability */
+    .overlay {
+      background: rgba(0, 0, 0, 0.75);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .form-box {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+      margin-bottom: 30px;
+      font-size: 32px;
+      letter-spacing: 2px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: linear-gradient(90deg, #00f5ff, #ff00f5);
+      color: white;
+      border: none;
+      padding: 14px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="overlay">
+
+  <h1>Glow Group Peptide Co-Op</h1>
+
+  <div class="form-box">
+
+    <input type="text" id="name" placeholder="Customer Name" required>
+    <input type="text" id="phone" placeholder="Contact Number" required>
+    <input type="text" id="address" placeholder="Delivery Address" required>
+
+    <select id="product" required>
+      <option value="">Select Product</option>
+      <option>TIRZ 15MG</option>
+      <option>TIRZ 30MG</option>
+      <option>RETA 5MG</option>
+      <option>RETA 15MG</option>
+      <option>RETA 30MG</option>
+      <option>MOTS-C 10MG</option>
+      <option>MOTS-C 40MG</option>
+      <option>TESAMORELIN 5MG</option>
+      <option>TESAMORELIN 10MG</option>
+      <option>BPC-157 5MG</option>
+      <option>BPC-157 10MG</option>
+      <option>CAGRILINTIDE 5MG</option>
+      <option>CAGRILINTIDE 10MG</option>
+      <option>GHK-CU 50MG</option>
+      <option>GHK-CU 100MG</option>
+      <option>NAD+ 200MG</option>
+      <option>NAD+ 500MG</option>
+      <option>LEMON BOTTLE 10ML/VIAL</option>
+      <option>GTT/GLUTATHIONE 600MG</option>
+    </select>
+
+    <input type="number" id="quantity" placeholder="Order Quantity" min="1" required>
+
+    <button onclick="submitForm()">Place Order</button>
+    <p id="message"></p>
+
+  </div>
+</div>
+
+<script>
+  const scriptURL = "https://script.google.com/macros/s/AKfycbz5egRjCmIsn9WyjtQkOMEdjshVf3A7lx3MWhDlQZwSPPK6G5TdYVG9ulwAtOn3wviI0w/exec";
+
+  function submitForm() {
+    const data = {
+      name: document.getElementById("name").value,
+      phone: document.getElementById("phone").value,
+      address: document.getElementById("address").value,
+      product: document.getElementById("product").value,
+      quantity: document.getElementById("quantity").value
+    };
+
+    if (!data.product) {
+      document.getElementById("message").innerText = "Please select a product.";
+      return;
+    }
+
+    fetch(scriptURL, {
+      method: "POST",
+      body: JSON.stringify(data)
+    })
+    .then(response => {
+      document.getElementById("message").innerText = "Order submitted successfully!";
+      document.querySelectorAll("input").forEach(input => input.value = "");
+      document.getElementById("product").value = "";
+    })
+    .catch(error => {
+      document.getElementById("message").innerText = "Error submitting order.";
+    });
+  }
+</script>
+
+</body>
+</html>
